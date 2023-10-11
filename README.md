@@ -14,11 +14,11 @@ In the past, when university members had problems accessing their university acc
 
 3) In some cases, helpdesk staff have generated random passwords (e.g., Summer 2023!) and issued them using Postit Notes.
 
-We needed a better solution, which we are now making available to other organisations as open source. We also used this application when we issued more than 10,000 new passwords following a cyber attack and support volumes increased. With our solution, we were able to resolve support cases faster and provide a more secure approach to password resets.
+We needed a better solution, which we are now making available to other organisations as open source. We also used this application when we issued more than 10,000 new passwords following a cyber attack and support volumes had increased. With our solution, we were able to resolve support cases faster and provide a more secure approach to password resets.
 
 ## Solution
 
-We developed our own Helpdesk applicatio. The application pre-generates password reset letters with random passwords. These letters are printed and made available in envelopes at the helpdesk.
+We developed our own Helpdesk application. The application pre-generates password reset letters with random passwords. These letters are printed and made available in envelopes at the helpdesk.
 
 ![Pre-printed letters with QR code in the viewing window](img/helpdesk_letter.png)
 
