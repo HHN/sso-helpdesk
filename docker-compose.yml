@@ -21,6 +21,7 @@ services:
     image: postgres:14
     volumes:
       - pg-data:/var/lib/postgresql/data
+    network_mode: host
     hostname: postgres
     container_name: postgres
     environment:
@@ -28,32 +29,37 @@ services:
       POSTGRES_PASSWORD: postgres
     restart: always
   hhn-helpdesk-backend:
+    network_mode: host
     build:
-      context: ./sso-helpdesk-backend
+      context: ./hhn-helpdesk-backend
       dockerfile: Dockerfile
     environment:
-      - JAVA_OPTS=foo=bar
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
+      - JAVA_OPTS=-D=java.security.egd=file:/dev/./urandom
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://127.0.0.1:5432/postgres
       - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=postgres
-    links:
-      - postgres
+      - SPRING_DATASOURCE_PASSWORD=<PASSWORD>
+      - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_CLIENTID=<HELPDESK_USER_CLIENT_ID>
+      - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_CLIENTSECRET=<HELPDESK_USER_CLIENT_SECRET>
+      - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_ISSUERURI=https://login.hs-heilbronn.de/realms/helpdesk
+      - SERVER_FORWARDHEADERSSTRATEGY=FRAMEWORK
+      - HHN_KEYCLOAK_ADMIN_URL=https://login.hs-heilbronn.de
+      - HHN_KEYCLOAK_ADMIN_REALM=master
+      - HHN_KEYCLOAK_ADMIN_CLIENT_ID=<HELPDESK_ADMIN_CLIENT_ID>
+      - HHN_KEYCLOAK_ADMIN_CLIENT_SECRET=<SECRET>
+      - HHN_KEYCLOAK_ADMIN_TARGET_REALM=hhn
     depends_on:
       - postgres
+    volumes:
+      - "/dev/urandom:/dev/random"
     restart: always
   hhn-helpdesk-frontend:
+    network_mode: host
     build:
-      context: ./sso-helpdesk-frontend
+      context: ./hhn-helpdesk-frontend
       dockerfile: Dockerfile
-    ports:
-      - "443:443"
-      - "80:80"
-#    volumes:
-#      - ./nginx/conf/:/etc/nginx/conf.d/:ro
-#      - ./nginx/ssl/:/etc/nginx/ssl/:ro
-    links:
-      - postgres
-      - hhn-helpdesk-backend
+    volumes:
+      - ./nginx/conf/:/etc/nginx/conf.d/:ro
+      - ./nginx/ssl/:/etc/nginx/ssl/:ro
     depends_on:
       - postgres
       - hhn-helpdesk-backend
