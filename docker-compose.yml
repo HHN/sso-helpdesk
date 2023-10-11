@@ -29,7 +29,7 @@ services:
     restart: always
   hhn-helpdesk-backend:
     build:
-      context: ./hhn-helpdesk-backend
+      context: ./sso-helpdesk-backend
       dockerfile: Dockerfile
     environment:
       - JAVA_OPTS=foo=bar
@@ -43,7 +43,7 @@ services:
     restart: always
   hhn-helpdesk-frontend:
     build:
-      context: ./hhn-helpdesk-frontend
+      context: ./sso-helpdesk-frontend
       dockerfile: Dockerfile
     ports:
       - "443:443"

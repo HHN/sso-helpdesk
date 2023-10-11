@@ -1,0 +1,6 @@
+[submodule "sso-helpdesk-backend"]
+	path = sso-helpdesk-backend
+	url = git@github.com:HHN/sso-helpdesk-backend.git
+[submodule "sso-helpdesk-frontend"]
+	path = sso-helpdesk-frontend
+	url = git@github.com:HHN/sso-helpdesk-frontend.git
