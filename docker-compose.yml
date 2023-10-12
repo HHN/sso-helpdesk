@@ -28,10 +28,10 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     restart: always
-  hhn-helpdesk-backend:
+  sso-helpdesk-backend:
     network_mode: host
     build:
-      context: ./hhn-helpdesk-backend
+      context: ./sso-helpdesk-backend
       dockerfile: Dockerfile
     environment:
       - JAVA_OPTS=-D=java.security.egd=file:/dev/./urandom
@@ -52,17 +52,17 @@ services:
     volumes:
       - "/dev/urandom:/dev/random"
     restart: always
-  hhn-helpdesk-frontend:
+  sso-helpdesk-frontend:
     network_mode: host
     build:
-      context: ./hhn-helpdesk-frontend
+      context: ./sso-helpdesk-frontend
       dockerfile: Dockerfile
     volumes:
       - ./nginx/conf/:/etc/nginx/conf.d/:ro
       - ./nginx/ssl/:/etc/nginx/ssl/:ro
     depends_on:
       - postgres
-      - hhn-helpdesk-backend
+      - sso-helpdesk-backend
     restart: always
 volumes:
   pg-data:
