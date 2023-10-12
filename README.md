@@ -58,6 +58,17 @@ docker compose build --build-arg "HTTP_PROXY=$HTTP_PROXY" --build-arg "HTTPS_PRO
 
 to build the docker images accordingly.
 
+In addition, you need to create a `.mvn/jvm.config` in `sso-helpdesk-backend/.mvn/jvm.config`
+
+with the following content:
+
+```bash
+-Dhttp.proxyHost=proxy-ip
+-Dhttp.proxyPort=port
+-Dhttps.proxyHost=proxy-ip
+-Dhttps.proxyPort=port
+```
+
 # Installation
 
 - Clone this repository. Ideally, use the latest available released version by running
