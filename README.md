@@ -32,6 +32,9 @@ Note that in our setup, Keycloak uses the university's Windows Active Directory 
 
 The application was originally intended to be used only for the initial password rollout, but is now in permanent use. This is why there is no permissions management or role model implemented yet. At the moment, any helpdesk employee can reset any AD account. So far, we have taken organisational measures to prevent misuse by only allowing selected employees to access the application and by keeping an audit log. However, we are planning to implement a role model function in the near future, so that, for example, IT staff in remote locations can reset the passwords of students in their respective faculties.
 
+
+# Developer Docs
+
 ## Update `git submodules`
 
 You can update the associated submodules by using
@@ -51,4 +54,27 @@ To run the docker build behind a web proxy, you can run
 
 ```bash
 docker compose build --build-arg "HTTP_PROXY=$HTTP_PROXY" --build-arg "HTTPS_PROXY=$HTTPS_PROXY" --build-arg "http_proxy=$HTTP_PROXY" --build-arg "https_proxy=$HTTPS_PROXY" --no-cache
+```
+
+to build the docker images accordingly.
+
+# Installation
+
+- Clone this repository. Ideally, use the latest available released version by running
+
+```bash
+git clone --branch <TAG_NAME> git@github.com:HHN/sso-helpdesk.git
+```
+
+Note: By default, the repository is set up for ssh-based git operations. If you are forced to use http-based git operations, you need to adjust `.gitmodules` accordingly.
+
+- Adjust the values in `docker-compose.yml` according to your needs, ie specify the necessary client ids and client secrets as well as the realm configuration of your `helpdesk` and `target` realms.
+- Update the nginx configuration in [nginx](nginx) accordingly, ie
+  - Add a valid SSL/TLS certificate
+  - Adjust the full qualified domain name in the nginx configuration
+- Run
+
+```bash
+docker compose build --no-cache; #if behind a proxy, you need to adjust this command as mentioned in the developer docs
+docker compose up -d;
 ```
